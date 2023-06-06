@@ -172,8 +172,8 @@ void NetWork::printIteration(int dist[], int n, int parent[], int Iter)
 void NetWork::lsrp(int src)
 {
     auto start = high_resolution_clock::now();
-    auto mid = high_resolution_clock::now();
-
+   // auto mid = high_resolution_clock::now();
+    //n=ceil(sqrt(n*2));
     int distance[MAX_NODES];
     bool visited[MAX_NODES] = {false};
     int parent[MAX_NODES] = {-1};
@@ -191,14 +191,13 @@ void NetWork::lsrp(int src)
             {
                 parent[v] = u;
                 distance[v] = distance[u] + links[u][v];
-                mid = high_resolution_clock::now();
             }
         printIteration(distance, n, parent, iter + 1);
     }
     parent[src] = -1;
-    printPaths(distance, parent, src);
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(end - start);
+    printPaths(distance, parent, src);
     cout << "time elapsed for executing link state algorithm for node " << src + 1 << " = "
          << duration.count() << " microseconds\n\n";
 
@@ -296,7 +295,7 @@ void NetWork::makeTopology(string topo)
     {
         vector<int> args = splitArgs(linkInfo);
         if(args[0]==args[1]){
-            cout<<"can't modify the distance of a node from itself!\n";
+            cout<<"source and destination couldn't be the same!\n";
             return;
         }
         links[args[0]][args[1]] = links[args[1]][args[0]] = args[2];
@@ -308,6 +307,10 @@ void NetWork::makeTopology(string topo)
 void NetWork::removeLink(string input)
 {
     vector<int> args = splitArgs(input);
+    if(links[args[0]][args[1]] == -1){
+        cout<<"there is no such link! \n";
+        return;
+    }
     links[args[0]][args[1]] = links[args[1]][args[0]] = -1;
     cout<<"OK\n";
 }
