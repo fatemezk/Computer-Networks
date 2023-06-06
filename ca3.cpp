@@ -172,8 +172,6 @@ void NetWork::printIteration(int dist[], int n, int parent[], int Iter)
 void NetWork::lsrp(int src)
 {
     auto start = high_resolution_clock::now();
-   // auto mid = high_resolution_clock::now();
-    //n=ceil(sqrt(n*2));
     int distance[MAX_NODES];
     bool visited[MAX_NODES] = {false};
     int parent[MAX_NODES] = {-1};
@@ -200,11 +198,6 @@ void NetWork::lsrp(int src)
     printPaths(distance, parent, src);
     cout << "time elapsed for executing link state algorithm for node " << src + 1 << " = "
          << duration.count() << " microseconds\n\n";
-
-    //uncomment to see the last time that our table was changed
-    // auto duration2 = duration_cast<microseconds>(mid - start);
-    // cout << "table while executing link state algorithm for node " << src + 1 << " was fixed after "
-    //      << duration2.count() << " microseconds\n\n";
 }
 
 void NetWork::lsrpAll()
@@ -250,10 +243,6 @@ void NetWork::dvrp(int src)
     cout << "time elapsed for executing distance vector algorithm for node " << src + 1 << " = "
          << duration.count() << " microseconds\n\n";
 
-    //uncomment to see the last time that our table was changed
-    // auto duration2 = duration_cast<microseconds>(mid - start);
-    // cout << "table while executing distance vector algorithm for node " << src + 1 << " was fixed after "
-    //      << duration2.count() << " microseconds\n\n";
 }
 
 void NetWork::dvrpAll()
@@ -329,7 +318,7 @@ void NetWork::modifyLink(string input)
 
 void NetWork::showTopology()
 {
-    cout << "u|v |  ";
+    cout << "    |  ";
     for (int i = 0; i < n; i++)
     {
         int spaces = i == 0 ? 2 : 3 - log10(i + 1);
@@ -379,6 +368,8 @@ void handleCommands(NetWork *network)
             network->removeLink(args);
         if (command == "modify")
             network->modifyLink(args);
+        else
+            cout<<"command not found!\n";
     }
 }
 
